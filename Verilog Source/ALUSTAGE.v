@@ -6,6 +6,8 @@ module ALU (
     );
 
     always @(*) begin 
+        out = 32'b0;
+        zero = 1'b0; 
         case (op)
             4'b0000:  out = A + B;
             4'b0001:  begin

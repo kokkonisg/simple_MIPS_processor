@@ -15,7 +15,7 @@ module ROM(
     always @(negedge clk) begin
         dout <= ROM[addr];
     end
-	 
+
 endmodule
 
 module PC (
@@ -44,7 +44,7 @@ endmodule
 
 module incr_immed ( //incrementor +4 +immediate
     input [11:0] counter_in,
-    input [31:0] immed,
+    input [11:0] immed,
     output [11:0] counter_out
     );
 
@@ -63,7 +63,7 @@ endmodule
 
 module IF (
     input clk, reset, PC_en, select,
-    input [31:0] immed,
+    input [11:0] immed,
     output [31:0] instr
 );
     wire [11:0] mux_out, incr4, incrImm, pc_out;

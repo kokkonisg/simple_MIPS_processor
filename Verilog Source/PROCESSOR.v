@@ -5,7 +5,7 @@ module processor(
     input clk, reset
 );
     wire [3:0] func;
-    wire clk, reset, PCen, PCsel, RFwrsel, RFsel, RFwr, ALUsel, MEMwr;
+    wire PCen, PCsel, RFwrsel, RFsel, RFwr, ALUsel, MEMwr;
     wire [31:0] instr, immed;
     wire zero;
 

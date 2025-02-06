@@ -14,9 +14,9 @@ module datapath (
 	assign temp_memin = (instr[31:26]==6'b000111) ? {{24{1'b0}}, RF_B[7:0]} : RF_B;
     assign temp_memout = (instr[31:26]==6'b000011) ? {{24{1'b0}}, MEM_out[7:0]} : MEM_out;
 
-    IF if_mod(.clk(clk), .reset(reset), .PC_en(en), .select(PC_sel), .immed(immed), .instr(instr));
-    decode dec_mod(.clk(clk), .RFsel_write(RFsel_wr), .RFsel_B(RFsel_B), .RFwen(RFwr_en), .instr(instr), .ALU_out(ALU_out), .MEM_out(temp_memout), .immed(immed), .RF_A(RF_A), .RF_B(RF_B));
+    IF if_mod(.clk(clk), .reset(reset), .PC_en(en), .select(PC_sel), .immed(immed[11:0]), .instr(instr));
+    decode dec_mod(.clk(clk), .reset(reset), .RFsel_write(RFsel_wr), .RFsel_B(RFsel_B), .RFwen(RFwr_en), .instr(instr), .ALU_out(ALU_out), .MEM_out(temp_memout), .immed(immed), .RF_A(RF_A), .RF_B(RF_B));
     ALUSTAGE alu_mod(.immed(immed), .RF_A(RF_A), .RF_B(RF_B), .Bsel(ALUsel_B), .func(func), .ALU_out(ALU_out), .zero(zero));
-    MEMSTAGE mem_mod(.clk(clk), .MEM_we(MEMwr_en), .ALU_MEM_addr(ALU_out), .MEM_datain(temp_memin), .MEM_dout(MEM_out));
+    MEMSTAGE mem_mod(.clk(clk), .reset(reset), .MEM_we(MEMwr_en), .ALU_MEM_addr(ALU_out[11:2]), .MEM_datain(temp_memin), .MEM_dout(MEM_out));
         
     endmodule

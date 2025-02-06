@@ -36,6 +36,7 @@ processor cpu(clk, reset);
 // control ctrl(clk, zero, instr, en, PCsel, MEMwr, RFwrsel, RFsel, RFwr, ALUsel, func, state);
 
 initial begin
+    $readmemb("assembly_rom.data", cpu.dpath.if_mod.rom_mod.ROM);
 	@(negedge clk);
 	reset = 0;
     // # 150;
@@ -45,6 +46,18 @@ initial begin
 	// reset = 0;
 	# 300; 
     $finish;
+end
+
+integer j=0;
+always@(clk) begin
+    //display values of all registers at the end of the simultaion
+        if($time==299) 
+            for(j=0;j<32/4;j=j+1) begin
+                $write("Register %2d has: %3d  |", j, $signed(cpu.dpath.dec_mod.RF.reg_dout[32*j+:32]));
+                $write("  Register %2d has: %3d  |", (8+j), $signed(cpu.dpath.dec_mod.RF.reg_dout[32*(8+j)+:32]));
+                $write("  Register %2d has: %3d  |", (16+j), $signed(cpu.dpath.dec_mod.RF.reg_dout[32*(16+j)+:32]));
+                $display("  Register %2d has: %3d", (24+j), $signed(cpu.dpath.dec_mod.RF.reg_dout[32*(24+j)+:32]));
+            end
 end
 
 endmodule
